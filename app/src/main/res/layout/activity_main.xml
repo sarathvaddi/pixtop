@@ -1,0 +1,16 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/container"
+    tools:context=".Views.MainActivity">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/check_text"
+        android:text="@string/text_network_error"
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
+</RelativeLayout>
