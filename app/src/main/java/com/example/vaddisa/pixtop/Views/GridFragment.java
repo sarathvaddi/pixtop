@@ -90,9 +90,9 @@ public class GridFragment extends android.support.v4.app.Fragment implements Res
 
     private void setGrid(ArrayList<PictureDetails> results) {
         if (results != null) {
-            recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3)); // set LayoutManager to RecyclerView
+            recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
             CustomAdapter customAdapter = new CustomAdapter(getContext(), results);
-            recyclerView.setAdapter(customAdapter); // set the Adapter to RecyclerView
+            recyclerView.setAdapter(customAdapter);
 
         } else
             Toast.makeText(getContext(), "Failed to get results...", Toast.LENGTH_SHORT).show();

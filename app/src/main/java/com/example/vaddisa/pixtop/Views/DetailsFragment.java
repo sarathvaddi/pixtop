@@ -3,16 +3,15 @@ package com.example.vaddisa.pixtop.Views;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.vaddisa.pixtop.BasePresenter;
 import com.example.vaddisa.pixtop.EditDbService;
 import com.example.vaddisa.pixtop.PictureDetails;
 import com.example.vaddisa.pixtop.R;
@@ -29,9 +28,10 @@ public class  DetailsFragment extends android.support.v4.app.Fragment  {
     private static final String STRING = "/10";
     private ImageView moviePoster;
     private RatingBar favBtn;
-
     private int position;
     private ArrayList<PictureDetails> list;
+
+    BasePresenter basePresenter;
 
 
     @Nullable
@@ -53,6 +53,7 @@ public class  DetailsFragment extends android.support.v4.app.Fragment  {
     private void setScreen(View view) {
         moviePoster = (ImageView) view.findViewById(R.id.movie_poster);
         favBtn = (RatingBar) view.findViewById(R.id.fav_btn);
+        isFavouriteMovie();
 
     }
 
@@ -104,11 +105,9 @@ public class  DetailsFragment extends android.support.v4.app.Fragment  {
                 public boolean onTouch(View v, MotionEvent event) {
                     if (event.getAction() == MotionEvent.ACTION_UP) {
                         if (favBtn.getRating() == 0) {
-                            favBtn.setForeground(getResources().getDrawable(R.drawable.ic_favorite));
-
+                            favBtn.setRating(1);
                         } else {
                             favBtn.setRating(0);
-                            favBtn.setForeground(getResources().getDrawable(R.drawable.ic_favorite_border));
                         }
                        saveFavourite();
                     }
@@ -127,8 +126,9 @@ public class  DetailsFragment extends android.support.v4.app.Fragment  {
     }
 
     
-    public void isFavouriteMovie(boolean isFavouriteMovie) {
-        if (isFavouriteMovie)
+    public void isFavouriteMovie() {
+        basePresenter = new BasePresenter(getContext());
+        if (basePresenter.isFavAvailableInDb(list.get(position).getId_hash()))
             favBtn.setRating(1);
         else
             favBtn.setRating(0);

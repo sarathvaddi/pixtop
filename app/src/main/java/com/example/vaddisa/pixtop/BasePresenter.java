@@ -28,8 +28,9 @@ public class BasePresenter {
 //        this.movieReviewsAndTrailers = movieReviewsAndTrailers;
 //    }
 //
-//    public BasePresenter() {
-//    }
+    public BasePresenter(Context ctx) {
+        this.ctx = ctx;
+    }
 //
 //    public void executeRequest(String uri, Class o, Context ctx) {
 //        this.ctx = ctx;

@@ -21,9 +21,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"
-            android:src="@drawable/ic_favorite_border"
             android:numStars="1"
-            style="@style/customRatingBar"
+            android:progressDrawable="@drawable/my_fav"
             android:paddingTop="5dp"
             android:stepSize="1.0" />
 
