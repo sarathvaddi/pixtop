@@ -23,21 +23,11 @@ public class BasePresenter {
         this.resultInterface = resultInterface;
     }
 
-//    public BasePresenter(Context ctx, MovieReviewsAndTrailers movieReviewsAndTrailers) {
-//        this.ctx = ctx;
-//        this.movieReviewsAndTrailers = movieReviewsAndTrailers;
-//    }
-//
+
     public BasePresenter(Context ctx) {
         this.ctx = ctx;
     }
-//
-//    public void executeRequest(String uri, Class o, Context ctx) {
-//        this.ctx = ctx;
-//        ConnectionManager cm = new ConnectionManager(this, o, ctx);
-//        cm.setReviewsAndTrailers(movieReviewsAndTrailers);
-//        cm.execute(uri);
-//    }
+
 
     public void makeNetworkCall(String url, boolean isLocalApi, Context ctx) {
         ConnectionManager cm = new ConnectionManager(this, ctx, isLocalApi);

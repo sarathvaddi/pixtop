@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Pixtop</string>
     <string name="text_network_error">Device not connected to Internet.. Please check Internet Connection!!!</string>
+    <string name="action_share">Share</string>
 </resources>

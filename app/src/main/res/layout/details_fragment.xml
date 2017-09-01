@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:id="@+id/linear_layout"
@@ -12,7 +13,7 @@
         <ImageView
             android:id="@+id/movie_poster"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="wrap_content"
             android:scaleType="fitCenter" />
 
 
@@ -28,13 +29,6 @@
 
 
         <TextView
-            android:id="@+id/overView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:textAppearance="@android:style/TextAppearance.Medium" />
-
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -47,6 +41,19 @@
             android:layout_margin="10dp"
             android:text="Trailers"
             android:textAppearance="@android:style/TextAppearance.Large" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/share_fab"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_gravity="bottom|end|right"
+            android:layout_marginBottom="@dimen/fab_margin"
+            android:layout_marginRight="@dimen/fab_margin"
+            android:contentDescription="@string/action_share"
+            android:src="@drawable/ic_share"
+            app:elevation="@dimen/fab_elevation"
+            app:pressedTranslationZ="@dimen/fab_press_translation_z"
+            app:layout_behavior="com.example.vaddisa.pixtop.FABHideBehavior"/>
 
     </LinearLayout>
 
