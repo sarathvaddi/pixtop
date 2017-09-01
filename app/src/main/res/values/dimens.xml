@@ -16,4 +16,6 @@
     <dimen name="list_item_margin">4dp</dimen>
     <dimen name="list_item_elevation">8dp</dimen>
     <dimen name="item_list_margin">4dp</dimen>
+    <dimen name="widget_list_row_padding">10dp</dimen>
+    <dimen name="widget_row_height">50dp</dimen>
 </resources>

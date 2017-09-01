@@ -115,70 +115,81 @@ public class DetailsFragment extends android.support.v4.app.Fragment {
 
     private void setValues() {
         if (list != null) {
-            Glide.with(getActivity())
-                    .load(list.get(position).getOverview())
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .listener(new RequestListener<String, GlideDrawable>() {
-                        @Override
-                        public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-                            return false;
-                        }
+            loadImageToImageView();
+            setLikeButton();
+            setImageSharing();
+        }
 
-                        @Override
-                        public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                            moviePoster.setImageDrawable(resource);
-                            return true;
-                        }
-                    })
-                    .into(moviePoster);
-            favBtn.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    if (event.getAction() == MotionEvent.ACTION_UP) {
-                        if (favBtn.getRating() == 0) {
-                            favBtn.setRating(1);
-                        } else {
-                            favBtn.setRating(0);
-                        }
-                        saveFavourite();
+}
+
+    private void loadImageToImageView() {
+        Glide.with(getActivity())
+                .load(list.get(position).getOverview())
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .listener(new RequestListener<String, GlideDrawable>() {
+                    @Override
+                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                        return false;
                     }
-                    return true;
+
+                    @Override
+                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                        moviePoster.setImageDrawable(resource);
+                        return true;
+                    }
+                })
+                .into(moviePoster);
+    }
+
+    private void setImageSharing() {
+        share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Uri bmpUri = getLocalBitmapUri(moviePoster);
+                if (bmpUri != null) {
+                    // Construct a ShareIntent with link to image
+                    Intent shareIntent = new Intent();
+                    shareIntent.setAction(Intent.ACTION_SEND);
+                    shareIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
+                    shareIntent.setType("image/*");
+                    // Launch sharing dialog for image
+                    startActivity(Intent.createChooser(shareIntent, "Share Image"));
+
+                } else {
+                    // ...sharing failed, handle error
                 }
-            });
+        }
+    });
+    }
 
-            share.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Uri bmpUri = getLocalBitmapUri(moviePoster);
-                    if (bmpUri != null) {
-                        // Construct a ShareIntent with link to image
-                        Intent shareIntent = new Intent();
-                        shareIntent.setAction(Intent.ACTION_SEND);
-                        shareIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
-                        shareIntent.setType("image/*");
-                        // Launch sharing dialog for image
-                        startActivity(Intent.createChooser(shareIntent, "Share Image"));
-
+    private void setLikeButton() {
+        favBtn.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (favBtn.getRating() == 0) {
+                        favBtn.setRating(1);
                     } else {
-                        // ...sharing failed, handle error
+                        favBtn.setRating(0);
                     }
+                    saveFavourite();
+                }
+                return true;
             }
         });
     }
 
-}
 
-
-        private Uri getLocalBitmapUri(ImageView iview) {
+    private Uri getLocalBitmapUri(ImageView iview) {
             Drawable drawable = iview.getDrawable();
             Bitmap bmp = null;
             if (drawable instanceof GlideBitmapDrawable){
 
                 bmp = ((GlideBitmapDrawable) iview.getDrawable()).getBitmap();
 
-                Log.e("IMAGE LOG","Came inside drawable");
+                Log.e("LOG","Came inside drawable");
             } else {
-                Log.e("IMAGE LOG","drawable is null"+drawable);
+                Log.e("LOG","drawable is null"+drawable);
                 return null;
 
             }
@@ -195,8 +206,6 @@ public class DetailsFragment extends android.support.v4.app.Fragment {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-            // **Warning:** This will fail for API >= 24, use a FileProvider as shown below instead.
 
             return bmpUri;
 

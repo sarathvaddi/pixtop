@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.example.vaddisa.pixtop.BasePresenter;
 import com.example.vaddisa.pixtop.ConnectivityManager.ConnectionManager;
@@ -36,6 +36,7 @@ public class GridFragment extends android.support.v4.app.Fragment implements Res
     ArrayList<PictureDetails> list;
     RecyclerView recyclerView;
     String tabSelected;
+    TextView errorText;
     private BasePresenter basePresenter;
 
     public static GridFragment newInstance(String tabSelected) {
@@ -66,7 +67,7 @@ public class GridFragment extends android.support.v4.app.Fragment implements Res
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.grid_layout, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
-
+        errorText = (TextView)view.findViewById(R.id.error_text);
         fetchLatestData();
 
         return view;
@@ -94,8 +95,10 @@ public class GridFragment extends android.support.v4.app.Fragment implements Res
             CustomAdapter customAdapter = new CustomAdapter(getContext(), results);
             recyclerView.setAdapter(customAdapter);
 
-        } else
-            Toast.makeText(getContext(), "Failed to get results...", Toast.LENGTH_SHORT).show();
+        } else{
+            errorText.setVisibility(View.VISIBLE);
+        }
+
     }
 
     @Override
