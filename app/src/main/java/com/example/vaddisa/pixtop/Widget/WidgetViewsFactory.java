@@ -37,6 +37,7 @@ public class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory
             PicturesContract.PicturesEntry.COLUMN_RELEASE_DATE,
             PicturesContract.PicturesEntry.COLUMN_SYNOPSIS,
             PicturesContract.PicturesEntry.COLUMN_TITLE,
+            PicturesContract.PicturesEntry.COLUMN_ORIGINAL_TITLE
     };
 
         @RequiresApi(api = Build.VERSION_CODES.N)

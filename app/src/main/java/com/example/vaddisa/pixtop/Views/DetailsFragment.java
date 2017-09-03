@@ -2,6 +2,9 @@ package com.example.vaddisa.pixtop.Views;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -23,7 +27,7 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.example.vaddisa.pixtop.BasePresenter;
-import com.example.vaddisa.pixtop.EditDbService;
+import com.example.vaddisa.pixtop.PictureDB.EditDbService;
 import com.example.vaddisa.pixtop.PictureDetails;
 import com.example.vaddisa.pixtop.R;
 
@@ -40,11 +44,23 @@ import java.util.ArrayList;
 public class DetailsFragment extends android.support.v4.app.Fragment {
 
     private static final String STRING = "/10";
-    private ImageView moviePoster;
+    private ImageView poster;
     private RatingBar favBtn;
+    private TextView user;
+    private TextView userInfo;
     private FloatingActionButton share;
     private int position;
     private ArrayList<PictureDetails> list;
+    private int mScrollY;
+    private View mPhotoContainerView;
+    private int mStatusBarFullOpacityBottom;
+    private int mTopInset;
+    private int mMutedColor = 0xFF333333;
+    private ColorDrawable mStatusBarColorDrawable;
+    private static final float PARALLAX_FACTOR = 1.25f;
+
+    private ObservableScrollView mScrollView;
+    private DrawInsetsFrameLayout mDrawInsetsFrameLayout;
 
     BasePresenter basePresenter;
 
@@ -54,8 +70,32 @@ public class DetailsFragment extends android.support.v4.app.Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 
-        View view = inflater.inflate(R.layout.details_fragment, container, false);
+        View view = inflater.inflate(R.layout.detail_fragment, container, false);
+        mDrawInsetsFrameLayout = (DrawInsetsFrameLayout)
+                view.findViewById(R.id.draw_insets_frame_layout);
+        mDrawInsetsFrameLayout.setOnInsetsCallback(new DrawInsetsFrameLayout.OnInsetsCallback() {
+            @Override
+            public void onInsetsChanged(Rect insets) {
+                mTopInset = insets.top;
+            }
+        });
+
+        mScrollView = (ObservableScrollView) view.findViewById(R.id.scrollview);
+        mScrollView.setCallbacks(new ObservableScrollView.Callbacks() {
+            @Override
+            public void onScrollChanged() {
+                mScrollY = mScrollView.getScrollY();
+                mPhotoContainerView.setTranslationY((int) (mScrollY - mScrollY / PARALLAX_FACTOR));
+                updateStatusBar();
+            }
+        });
+
+        poster = (ImageView) view.findViewById(R.id.poster);
+        mPhotoContainerView = view.findViewById(R.id.photo_container);
+
+        mStatusBarColorDrawable = new ColorDrawable(0);
         setScreen(view);
+        updateStatusBar();
         return view;
     }
 
@@ -66,9 +106,13 @@ public class DetailsFragment extends android.support.v4.app.Fragment {
     }
 
     private void setScreen(View view) {
-        moviePoster = (ImageView) view.findViewById(R.id.movie_poster);
+        view.setAlpha(0);
+        view.setVisibility(View.VISIBLE);
+        view.animate().alpha(1).setDuration(200);
         favBtn = (RatingBar) view.findViewById(R.id.fav_btn);
         share = (FloatingActionButton) view.findViewById(R.id.share_fab);
+        user = (TextView) view.findViewById(R.id.user);
+        userInfo = (TextView) view.findViewById(R.id.user_info);
         isFavouriteMovie();
 
     }
@@ -118,6 +162,7 @@ public class DetailsFragment extends android.support.v4.app.Fragment {
             loadImageToImageView();
             setLikeButton();
             setImageSharing();
+            user.setText("Photographer: "+list.get(position).getOriginal_title());
         }
 
 }
@@ -134,29 +179,24 @@ public class DetailsFragment extends android.support.v4.app.Fragment {
 
                     @Override
                     public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                        moviePoster.setImageDrawable(resource);
+                        poster.setImageDrawable(resource);
                         return true;
                     }
                 })
-                .into(moviePoster);
+                .into(poster);
     }
 
     private void setImageSharing() {
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Uri bmpUri = getLocalBitmapUri(moviePoster);
+                Uri bmpUri = getLocalBitmapUri(poster);
                 if (bmpUri != null) {
-                    // Construct a ShareIntent with link to image
                     Intent shareIntent = new Intent();
                     shareIntent.setAction(Intent.ACTION_SEND);
                     shareIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
                     shareIntent.setType("image/*");
-                    // Launch sharing dialog for image
                     startActivity(Intent.createChooser(shareIntent, "Share Image"));
-
-                } else {
-                    // ...sharing failed, handle error
                 }
         }
     });
@@ -227,6 +267,7 @@ public class DetailsFragment extends android.support.v4.app.Fragment {
             favBtn.setRating(0);
     }
 
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
         if (list != null) {
@@ -238,5 +279,33 @@ public class DetailsFragment extends android.support.v4.app.Fragment {
         super.onSaveInstanceState(outState);
     }
 
+    private void updateStatusBar() {
+        int color = 0;
+        if (poster != null && mTopInset != 0 && mScrollY > 0) {
+            float f = progress(mScrollY,
+                    mStatusBarFullOpacityBottom - mTopInset * 3,
+                    mStatusBarFullOpacityBottom - mTopInset);
+            color = Color.argb((int) (255 * f),
+                    (int) (Color.red(mMutedColor) * 0.9),
+                    (int) (Color.green(mMutedColor) * 0.9),
+                    (int) (Color.blue(mMutedColor) * 0.9));
+        }
+        mStatusBarColorDrawable.setColor(color);
+        mDrawInsetsFrameLayout.setInsetBackground(mStatusBarColorDrawable);
+    }
+
+    static float progress(float v, float min, float max) {
+        return constrain((v - min) / (max - min), 0, 1);
+    }
+
+    static float constrain(float val, float min, float max) {
+        if (val < min) {
+            return min;
+        } else if (val > max) {
+            return max;
+        } else {
+            return val;
+        }
+    }
 
 }

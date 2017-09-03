@@ -1,4 +1,4 @@
-package com.example.vaddisa.pixtop;
+package com.example.vaddisa.pixtop.PictureDB;
 
 import android.app.IntentService;
 import android.content.Intent;
@@ -6,8 +6,7 @@ import android.database.Cursor;
 import android.os.Handler;
 import android.widget.Toast;
 
-import com.example.vaddisa.pixtop.PictureDB.ImageCache;
-import com.example.vaddisa.pixtop.PictureDB.PicturesContract;
+import com.example.vaddisa.pixtop.PictureDetails;
 
 /**
  * Created by vaddisa on 8/20/2017.

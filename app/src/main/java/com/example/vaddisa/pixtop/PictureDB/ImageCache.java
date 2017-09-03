@@ -21,6 +21,7 @@ public class ImageCache {
         pictureDetails.setPoster_path(cursor.getString(cursor.getColumnIndex(PicturesContract.PicturesEntry.COLUMN_POSTER_IMAGE)));
         pictureDetails.setOverview(cursor.getString(cursor.getColumnIndex(PicturesContract.PicturesEntry.COLUMN_SYNOPSIS)));
         pictureDetails.setRelease_date(cursor.getString(cursor.getColumnIndex(PicturesContract.PicturesEntry.COLUMN_RELEASE_DATE)));
+        pictureDetails.setOriginal_title(cursor.getString(cursor.getColumnIndex(PicturesContract.PicturesEntry.COLUMN_ORIGINAL_TITLE)));
 
         return pictureDetails;
     }
@@ -32,6 +33,7 @@ public class ImageCache {
         values.put(PicturesContract.PicturesEntry.COLUMN_RELEASE_DATE, picture.getRelease_date());
         values.put(PicturesContract.PicturesEntry.COLUMN_SYNOPSIS, picture.getOverview());
         values.put(PicturesContract.PicturesEntry.COLUMN_TITLE, picture.getTitle());
+        values.put(PicturesContract.PicturesEntry.COLUMN_ORIGINAL_TITLE, picture.getOriginal_title());
         return values;
     }
 }

@@ -28,7 +28,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Views.MainActivity" />
         </activity>
-        <service android:name=".EditDbService" android:exported="false"></service>
+        <service android:name=".PictureDB.EditDbService" android:exported="false"></service>
         <provider
             android:authorities="com.example.vaddisa.pixtop"
             android:name=".PictureDB.PicturesProvider"></provider>

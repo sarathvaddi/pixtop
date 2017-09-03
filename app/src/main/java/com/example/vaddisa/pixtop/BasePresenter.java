@@ -42,6 +42,7 @@ public class BasePresenter {
                 PicturesContract.PicturesEntry.COLUMN_RELEASE_DATE,
                 PicturesContract.PicturesEntry.COLUMN_SYNOPSIS,
                 PicturesContract.PicturesEntry.COLUMN_TITLE,
+                PicturesContract.PicturesEntry.COLUMN_ORIGINAL_TITLE
         };
 
         Cursor movieCursor = ctx.getContentResolver().query(PicturesContract.PicturesEntry.CONTENT_URI, PICTURES_COLUMN, null, null, null);

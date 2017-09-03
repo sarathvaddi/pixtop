@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class PicturesdbHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 5;
 
     public static final String DATABASE_NAME = "favourite_pictures.db";
 
@@ -25,6 +25,7 @@ public class PicturesdbHelper extends SQLiteOpenHelper {
                 PicturesContract.PicturesEntry.COLUMN_TITLE + " TEXT  NULL," +
                 PicturesContract.PicturesEntry.COLUMN_SYNOPSIS + " TEXT NULL," +
                 PicturesContract.PicturesEntry.COLUMN_RELEASE_DATE + " TEXT  NULL," +
+                PicturesContract.PicturesEntry.COLUMN_ORIGINAL_TITLE + " TEXT NULL," +
                 PicturesContract.PicturesEntry.COLUMN_POSTER_IMAGE + " TEXT NULL);";
 
 

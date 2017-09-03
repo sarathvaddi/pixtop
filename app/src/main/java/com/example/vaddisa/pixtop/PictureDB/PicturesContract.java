@@ -52,6 +52,8 @@ public class PicturesContract {
 
         public static final String ID_HASH = "id_hash";
 
+        public static final String COLUMN_ORIGINAL_TITLE = "original_title";
+
         /**
          * Uri to look for movie data.
          */
@@ -68,6 +70,7 @@ public class PicturesContract {
          */
         public static final String CONTENT_ITEM_TYPE =
                 ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PICTURES_PATH;
+
 
 
         /**
