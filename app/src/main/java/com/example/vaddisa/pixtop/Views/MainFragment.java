@@ -17,11 +17,15 @@ public class MainFragment extends android.support.v4.app.Fragment {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    String query;
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Bundle bundle = this.getArguments();
+        if (bundle != null)
+            query = bundle.getString("query");
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         setHasOptionsMenu(true);
         setScreen(view);
@@ -31,7 +35,7 @@ public class MainFragment extends android.support.v4.app.Fragment {
     private void setScreen(View view) {
         tabLayout = (TabLayout) view.findViewById(R.id.tabs);
         viewPager = (ViewPager) view.findViewById(R.id.viewpager);
-        PageAdapter adapter = new PageAdapter(getChildFragmentManager());
+        PageAdapter adapter = new PageAdapter(getChildFragmentManager(), query);
         viewPager.setAdapter(adapter);
         viewPager.refreshDrawableState();
         tabLayout.setupWithViewPager(viewPager);

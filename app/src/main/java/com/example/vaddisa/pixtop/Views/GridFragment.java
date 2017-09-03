@@ -17,31 +17,28 @@ import com.example.vaddisa.pixtop.Result;
 
 import java.util.ArrayList;
 
+import static com.example.vaddisa.pixtop.Constants.LOCAL_API_URL;
+import static com.example.vaddisa.pixtop.Constants.PIXABAY_HIGH_RES_API;
+import static com.example.vaddisa.pixtop.Constants.QUERY;
+import static com.example.vaddisa.pixtop.Constants.TAB_SELECTED_TEXT;
+
 /**
  * Created by vaddisa on 8/21/2017.
  */
 public class GridFragment extends android.support.v4.app.Fragment implements Result {
 
-    private static final String TAB_SELECTED_TEXT = "TabSelected";
-
-    public static final String LOCAL_API_URL = "10.0.0.80:8080/photo_gallery/photos";
-    public static final String API_STRING = "?key=";
-    public static final String QUERY_STRING = "&response_group=high_resolution&q=";
-    private static final String POPULAR = "HummingBirds";
-    private static final String TOP_RATED = "nature";
-    private static final String API_KEY = "6089935-fe0f82301764e844a53159975";
-    private static final String BASE_URL = "https://pixabay.com/api/";
-    public static final String PIXABAY_HIGH_RES_API = BASE_URL + API_STRING + API_KEY + QUERY_STRING + POPULAR;
 
     ArrayList<PictureDetails> list;
     RecyclerView recyclerView;
     String tabSelected;
+    String query;
     TextView errorText;
     private BasePresenter basePresenter;
 
-    public static GridFragment newInstance(String tabSelected) {
+    public static GridFragment newInstance(String tabSelected, String query) {
         Bundle args = new Bundle();
         args.putString(TAB_SELECTED_TEXT, tabSelected);
+        args.putString("query", query);
         GridFragment fragment = new GridFragment();
         fragment.setArguments(args);
         return fragment;
@@ -53,6 +50,7 @@ public class GridFragment extends android.support.v4.app.Fragment implements Res
         if (getArguments() != null) {
             basePresenter = new BasePresenter(getContext(), this);
             this.tabSelected = getArguments().getString(TAB_SELECTED_TEXT);
+            this.query = getArguments().getString("query");
         }
     }
 
@@ -67,7 +65,7 @@ public class GridFragment extends android.support.v4.app.Fragment implements Res
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.grid_layout, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
-        errorText = (TextView)view.findViewById(R.id.error_text);
+        errorText = (TextView) view.findViewById(R.id.error_text);
         fetchLatestData();
 
         return view;
@@ -83,7 +81,10 @@ public class GridFragment extends android.support.v4.app.Fragment implements Res
         if ("My Album".equalsIgnoreCase(tabSelected)) {
             makeNetworkCall(LOCAL_API_URL, true);
         } else if ("All".equalsIgnoreCase(tabSelected)) {
-            makeNetworkCall(PIXABAY_HIGH_RES_API, false);
+            if (query != null)
+                makeNetworkCall(PIXABAY_HIGH_RES_API + query, false);
+            else
+                makeNetworkCall(PIXABAY_HIGH_RES_API + QUERY, false);
         } else if ("Saved".equalsIgnoreCase(tabSelected)) {
             basePresenter.fetchFavouritePictures();
         }
@@ -95,7 +96,7 @@ public class GridFragment extends android.support.v4.app.Fragment implements Res
             CustomAdapter customAdapter = new CustomAdapter(getContext(), results);
             recyclerView.setAdapter(customAdapter);
 
-        } else{
+        } else {
             errorText.setVisibility(View.VISIBLE);
         }
 

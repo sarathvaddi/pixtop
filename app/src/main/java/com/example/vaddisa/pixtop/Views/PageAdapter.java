@@ -9,8 +9,11 @@ import android.support.v4.app.FragmentStatePagerAdapter;
  */
 public class PageAdapter extends FragmentStatePagerAdapter {
 
-    public PageAdapter(FragmentManager fm) {
+    String query;
+
+    public PageAdapter(FragmentManager fm, String query) {
         super(fm);
+        this.query = query;
     }
 
     @Override
@@ -27,7 +30,7 @@ public class PageAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        GridFragment fragment = GridFragment.newInstance(tabTitles[position]);
+        GridFragment fragment = GridFragment.newInstance(tabTitles[position],query);
         return fragment;
     }
 
