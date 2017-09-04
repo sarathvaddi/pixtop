@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "43693331041",
+    "firebase_url": "https://pixtop-57f15.firebaseio.com",
+    "project_id": "pixtop-57f15",
+    "storage_bucket": "pixtop-57f15.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:43693331041:android:07d90a4f4d9b24f7",
+        "android_client_info": {
+          "package_name": "com.example.vaddisa.pixtop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "43693331041-5c8unjlqrthaqbf0ka9rrno4j00m7rtn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.vaddisa.pixtop",
+            "certificate_hash": "c63d481aecc1e191a674fe352968f47fac4a0871"
+          }
+        },
+        {
+          "client_id": "43693331041-i3ngpdn1g9d68ommmn47f95l0bt3d65i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjWO2MbYZWNhA6_cSLleXAWWwa8X7QefU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "43693331041-i3ngpdn1g9d68ommmn47f95l0bt3d65i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -3,10 +3,12 @@ package com.example.vaddisa.pixtop.PictureDB;
 import android.app.IntentService;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.Bundle;
 import android.os.Handler;
 import android.widget.Toast;
 
 import com.example.vaddisa.pixtop.PictureDetails;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 /**
  * Created by vaddisa on 8/20/2017.
@@ -18,6 +20,7 @@ public class EditDbService extends IntentService {
     public static final String PICTURES_KEY = "picture_key";
 
     PictureDetails imageDetailsModel;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     public EditDbService() {
         super(TAG);
@@ -25,6 +28,7 @@ public class EditDbService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         imageDetailsModel = intent.getParcelableExtra(PICTURES_KEY);
 
@@ -66,6 +70,9 @@ public class EditDbService extends IntentService {
 
     private void notifyFavUpdate(String text) {
         final String message = String.format(text, imageDetailsModel.getTitle());
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, message);
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SEARCH, bundle);
         Handler mHandler = new Handler(getMainLooper());
         mHandler.post(new Runnable() {
             @Override

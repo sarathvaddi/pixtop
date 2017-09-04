@@ -14,22 +14,24 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.vaddisa.pixtop.BasePresenter;
 import com.example.vaddisa.pixtop.R;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 public class MainActivity extends AppCompatActivity{
 
     private boolean mTwoPane;
     private SearchView searchView;
     BasePresenter basePresenter;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         basePresenter = new BasePresenter(getApplicationContext());
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         if (haveNetworkConnection()) {
                 mTwoPane = false;
@@ -80,8 +82,10 @@ public class MainActivity extends AppCompatActivity{
                     getSupportFragmentManager().beginTransaction()
                             .replace(R.id.container, fragment, MainFragment.class.getSimpleName())
                             .commit();
-                    //basePresenter.makeNetworkCall(Constants.PIXABAY_HIGH_RES_API+query,false,MainActivity.this);
-                    Toast.makeText(getApplicationContext(), query, Toast.LENGTH_SHORT).show();
+
+                    bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, query);
+                    mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SEARCH, bundle);
+
                     return true;
                 }
 
