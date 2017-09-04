@@ -55,7 +55,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:layout_marginBottom="@dimen/detail_metabar_vert_padding"
-                    android:background="#03A9F4"
+                    android:background="#FFFFFF"
                     android:orientation="vertical"
                     android:paddingBottom="@dimen/detail_metabar_vert_padding"
                     android:paddingLeft="@dimen/detail_inner_horiz_margin"
@@ -88,10 +88,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
-                        android:textAppearance="@android:style/TextAppearance.Large" />
+                        android:fontFamily="sans-serif-condensed"
+                        android:text="©pixabay"
+                        style="?android:attr/textAppearanceSmall"/>
+
                 </LinearLayout>
-
-
             </com.example.vaddisa.pixtop.Views.MaxWidthLinearLayout>
         </LinearLayout>
     </com.example.vaddisa.pixtop.Views.ObservableScrollView>

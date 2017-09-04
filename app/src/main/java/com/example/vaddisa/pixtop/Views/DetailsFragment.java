@@ -261,7 +261,7 @@ public class DetailsFragment extends android.support.v4.app.Fragment {
 
     public void isFavouriteMovie() {
         basePresenter = new BasePresenter(getContext());
-        if (basePresenter.isFavAvailableInDb(list.get(position).getId_hash()))
+        if (basePresenter.isFavAvailableInDb(list!=null?list.get(position).getId_hash():null))
             favBtn.setRating(1);
         else
             favBtn.setRating(0);

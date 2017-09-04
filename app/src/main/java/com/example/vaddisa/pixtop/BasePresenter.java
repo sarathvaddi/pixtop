@@ -62,16 +62,17 @@ public class BasePresenter {
 
 
     public boolean isFavAvailableInDb(String movieID) {
-        String[] projection = new String[]{PicturesContract.PicturesEntry.ID_HASH};
-        String selection = PicturesContract.PicturesEntry.ID_HASH + "=?";
-        String[] selectionArgs = new String[1];
-        selectionArgs[0] = movieID;
+        if(movieID!=null) {
+            String[] projection = new String[]{PicturesContract.PicturesEntry.ID_HASH};
+            String selection = PicturesContract.PicturesEntry.ID_HASH + "=?";
+            String[] selectionArgs = new String[1];
+            selectionArgs[0] = movieID;
 
-        Cursor movieCursor = ctx.getContentResolver().query(PicturesContract.PicturesEntry.CONTENT_URI,
-                projection, selection, selectionArgs, null);
-        if (movieCursor != null)
-            return movieCursor.moveToFirst();
-
+            Cursor movieCursor = ctx.getContentResolver().query(PicturesContract.PicturesEntry.CONTENT_URI,
+                    projection, selection, selectionArgs, null);
+            if (movieCursor != null)
+                return movieCursor.moveToFirst();
+        }
 
         return false;
     }

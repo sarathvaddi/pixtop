@@ -19,7 +19,7 @@ import android.widget.Toast;
 import com.example.vaddisa.pixtop.BasePresenter;
 import com.example.vaddisa.pixtop.R;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     private boolean mTwoPane;
     private SearchView searchView;
@@ -32,21 +32,11 @@ public class MainActivity extends AppCompatActivity {
         basePresenter = new BasePresenter(getApplicationContext());
 
         if (haveNetworkConnection()) {
-
-            if (findViewById(R.id.landing_container) != null) {
-                mTwoPane = true;
-                if (savedInstanceState == null) {
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.landing_container, new DetailsFragment(), "DetailsFragment")
-                            .commit();
-                }
-            } else {
                 mTwoPane = false;
                 MainFragment mainFragment = new MainFragment();
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.container, mainFragment, MainFragment.class.getSimpleName())
                         .commit();
-            }
         } else {
             TextView tv = (TextView) findViewById(R.id.check_text);
             tv.setVisibility(View.VISIBLE);
@@ -124,11 +114,4 @@ public class MainActivity extends AppCompatActivity {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-/*
-    @Override
-    public void onError() {
-        TextView tv = (TextView) findViewById(R.id.check_text);
-        tv.setVisibility(View.VISIBLE);
-    }
-*/
 }

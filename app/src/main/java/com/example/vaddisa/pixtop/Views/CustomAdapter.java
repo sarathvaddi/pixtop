@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.example.vaddisa.pixtop.ImageOnClick;
 import com.example.vaddisa.pixtop.PictureDetails;
 import com.example.vaddisa.pixtop.R;
 
@@ -20,10 +21,15 @@ import java.util.ArrayList;
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHolder> {
     ArrayList<PictureDetails> results;
     Context context;
+    private int mSelectedItem = 0;
+    boolean mTwoPane;
+    ImageOnClick onClick;
 
-    public CustomAdapter(Context context, ArrayList<PictureDetails> results) {
+    public CustomAdapter(Context context, ArrayList<PictureDetails> results, boolean mTwoPane,ImageOnClick onClick) {
         this.context = context;
         this.results = results;
+        this.mTwoPane = mTwoPane;
+        this.onClick = onClick;
     }
 
     @Override
@@ -43,6 +49,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         return results.size();
     }
 
+
     public class MyViewHolder extends RecyclerView.ViewHolder {
         ImageView image;
 
@@ -56,10 +63,14 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
             image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(context, DetailsActivity.class);
-                    intent.putExtra("position", position);
-                    intent.putParcelableArrayListExtra("results", results);
-                    context.startActivity(intent);
+                    if(!mTwoPane) {
+                        Intent intent = new Intent(context, DetailsActivity.class);
+                        intent.putExtra("position", position);
+                        intent.putParcelableArrayListExtra("results", results);
+                        context.startActivity(intent);
+                    }else{
+                        onClick.onImageClick(results,position);
+                    }
                 }
             });
 

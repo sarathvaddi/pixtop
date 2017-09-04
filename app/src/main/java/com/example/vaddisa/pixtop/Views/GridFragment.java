@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.vaddisa.pixtop.BasePresenter;
 import com.example.vaddisa.pixtop.ConnectivityManager.ConnectionManager;
+import com.example.vaddisa.pixtop.ImageOnClick;
 import com.example.vaddisa.pixtop.PictureDetails;
 import com.example.vaddisa.pixtop.R;
 import com.example.vaddisa.pixtop.Result;
@@ -33,14 +34,19 @@ public class GridFragment extends android.support.v4.app.Fragment implements Res
     String tabSelected;
     String query;
     TextView errorText;
+    boolean mTwoPane;
+    static ImageOnClick onClickI;
     private BasePresenter basePresenter;
 
-    public static GridFragment newInstance(String tabSelected, String query) {
+
+    public static GridFragment newInstance(String tabSelected, String query, boolean mTwoPane,ImageOnClick onClick) {
         Bundle args = new Bundle();
         args.putString(TAB_SELECTED_TEXT, tabSelected);
         args.putString("query", query);
+        args.putBoolean("mTwoPane", mTwoPane);
         GridFragment fragment = new GridFragment();
         fragment.setArguments(args);
+        onClickI = onClick;
         return fragment;
     }
 
@@ -51,6 +57,8 @@ public class GridFragment extends android.support.v4.app.Fragment implements Res
             basePresenter = new BasePresenter(getContext(), this);
             this.tabSelected = getArguments().getString(TAB_SELECTED_TEXT);
             this.query = getArguments().getString("query");
+            this.mTwoPane = getArguments().getBoolean("mTwoPane");
+            ;
         }
     }
 
@@ -90,12 +98,11 @@ public class GridFragment extends android.support.v4.app.Fragment implements Res
         }
     }
 
-    private void setGrid(ArrayList<PictureDetails> results) {
+    public void setGrid(final ArrayList<PictureDetails> results) {
         if (results != null) {
-            recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
-            CustomAdapter customAdapter = new CustomAdapter(getContext(), results);
+            recyclerView.setLayoutManager(new GridLayoutManager(getContext(), mTwoPane ? 1 : 3));
+            final CustomAdapter customAdapter = new CustomAdapter(getContext(), results,mTwoPane, onClickI);
             recyclerView.setAdapter(customAdapter);
-
         } else {
             errorText.setVisibility(View.VISIBLE);
         }
@@ -105,6 +112,7 @@ public class GridFragment extends android.support.v4.app.Fragment implements Res
     @Override
     public void getResult(ArrayList<PictureDetails> results) {
         setGrid(results);
+        list = results;
     }
 
     @Override
