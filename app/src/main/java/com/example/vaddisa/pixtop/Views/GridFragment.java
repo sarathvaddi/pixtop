@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.vaddisa.pixtop.BasePresenter;
 import com.example.vaddisa.pixtop.ConnectivityManager.ConnectionManager;
+import com.example.vaddisa.pixtop.Constants;
 import com.example.vaddisa.pixtop.ImageOnClick;
 import com.example.vaddisa.pixtop.PictureDetails;
 import com.example.vaddisa.pixtop.R;
@@ -39,11 +40,11 @@ public class GridFragment extends android.support.v4.app.Fragment implements Res
     private BasePresenter basePresenter;
 
 
-    public static GridFragment newInstance(String tabSelected, String query, boolean mTwoPane,ImageOnClick onClick) {
+    public static GridFragment newInstance(String tabSelected, String query, boolean mTwoPane, ImageOnClick onClick) {
         Bundle args = new Bundle();
         args.putString(TAB_SELECTED_TEXT, tabSelected);
-        args.putString("query", query);
-        args.putBoolean("mTwoPane", mTwoPane);
+        args.putString(Constants.query, query);
+        args.putBoolean(Constants.TWO_PANE, mTwoPane);
         GridFragment fragment = new GridFragment();
         fragment.setArguments(args);
         onClickI = onClick;
@@ -56,8 +57,8 @@ public class GridFragment extends android.support.v4.app.Fragment implements Res
         if (getArguments() != null) {
             basePresenter = new BasePresenter(getContext(), this);
             this.tabSelected = getArguments().getString(TAB_SELECTED_TEXT);
-            this.query = getArguments().getString("query");
-            this.mTwoPane = getArguments().getBoolean("mTwoPane");
+            this.query = getArguments().getString(Constants.query);
+            this.mTwoPane = getArguments().getBoolean(Constants.TWO_PANE);
             ;
         }
     }
@@ -74,8 +75,6 @@ public class GridFragment extends android.support.v4.app.Fragment implements Res
         View view = inflater.inflate(R.layout.grid_layout, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         errorText = (TextView) view.findViewById(R.id.error_text);
-        fetchLatestData();
-
         return view;
     }
 
@@ -86,22 +85,22 @@ public class GridFragment extends android.support.v4.app.Fragment implements Res
     }
 
     private void fetchLatestData() {
-        if ("My Album".equalsIgnoreCase(tabSelected)) {
+        if (Constants.MY_ALBUM.equalsIgnoreCase(tabSelected)) {
             makeNetworkCall(LOCAL_API_URL, true);
-        } else if ("All".equalsIgnoreCase(tabSelected)) {
+        } else if (Constants.ALL.equalsIgnoreCase(tabSelected)) {
             if (query != null)
                 makeNetworkCall(PIXABAY_HIGH_RES_API + query, false);
             else
                 makeNetworkCall(PIXABAY_HIGH_RES_API + QUERY, false);
-        } else if ("Saved".equalsIgnoreCase(tabSelected)) {
-            basePresenter.fetchFavouritePictures();
+        } else if (Constants.SAVED.equalsIgnoreCase(tabSelected)) {
+            basePresenter.fetchFavouritePictures(getLoaderManager());
         }
     }
 
     public void setGrid(final ArrayList<PictureDetails> results) {
         if (results != null) {
             recyclerView.setLayoutManager(new GridLayoutManager(getContext(), mTwoPane ? 1 : 3));
-            final CustomAdapter customAdapter = new CustomAdapter(getContext(), results,mTwoPane, onClickI);
+            final CustomAdapter customAdapter = new CustomAdapter(getContext(), results, mTwoPane, onClickI);
             recyclerView.setAdapter(customAdapter);
         } else {
             errorText.setVisibility(View.VISIBLE);

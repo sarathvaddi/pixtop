@@ -4,16 +4,11 @@ import android.util.Log;
 
 import com.example.vaddisa.pixtop.GetResultsSet;
 import com.example.vaddisa.pixtop.PictureDetails;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonParseException;
-import com.google.gson.stream.JsonReader;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +20,7 @@ public class JsonParser {
     private static final String TAG_largeImageURL = "largeImageURL";
     private static final String TAG_fullHDURL = "fullHDURL";
     private static final String TAG_imageURL = "imageURL";
-    private static final String TAG_userImageURL = "userImageURL";
+    private static final String TAG_previewURL = "previewURL";
     private static final String TAG_user = "user";
     private static final String TAG_backDropPath = "backdrop_path";
     private static final String TAG_name = "name";
@@ -38,7 +33,7 @@ public class JsonParser {
     public String fullHDURL;
     public String id_hash;
     public String imageURL;
-    public String userImageURL;
+    public String previewURL;
     public String user;
     public String id;
     public String name;
@@ -50,11 +45,10 @@ public class JsonParser {
 
     public List<PictureDetails> getPixabayApiResults(String response) throws JSONException {
 
-        Log.i("TAG", "Entered into parser");
 
 
         JSONArray results;
-        if(response!=null) {
+        if (response != null) {
             JSONObject res = new JSONObject(response);
 
             results = res.getJSONArray(TAG_hits);
@@ -85,14 +79,14 @@ public class JsonParser {
             fullHDURL = r.getString(TAG_fullHDURL);
             id_hash = r.getString(TAG_id_hash);
             imageURL = r.getString(TAG_imageURL);
-            userImageURL = r.getString(TAG_userImageURL);
+            previewURL = r.getString(TAG_previewURL);
             user = r.getString(TAG_user);
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
         PictureDetails movieDetailsObject = new PictureDetails(largeImageURL, id_hash, fullHDURL,
-                userImageURL, user, imageURL);
+                previewURL, user, imageURL);
         Log.d(TAG, " largeImageURL " + largeImageURL);
         return movieDetailsObject;
     }
@@ -102,7 +96,7 @@ public class JsonParser {
         Log.i("TAG", "Entered into parser");
 
 
-        if(response!=null) {
+        if (response != null) {
             JSONArray results;
             JSONObject res = new JSONObject(response);
 
@@ -136,24 +130,9 @@ public class JsonParser {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        PictureDetails movieDetailsObject = new PictureDetails(id,user);
+        PictureDetails movieDetailsObject = new PictureDetails(id, user);
         Log.d(TAG, " LocalImageId " + id);
         return movieDetailsObject;
-    }
-
-
-    public static <T> T deserializeObject(Class<T> objectClass, String json) {
-        try {
-            GsonBuilder builder = new GsonBuilder();
-            builder.registerTypeAdapter(String.class, new StringDeserializer());
-            Gson gson = builder.create();
-            JsonReader reader = new JsonReader(new StringReader(json));
-            reader.setLenient(true);
-            return gson.fromJson(json, objectClass);
-        } catch (JsonParseException jsonParseException) {
-            Log.e("JSON ERROR", "JSON parsing Exception", jsonParseException);
-            return null;
-        }
     }
 
 

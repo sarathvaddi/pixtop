@@ -8,16 +8,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.vaddisa.pixtop.Constants;
 import com.example.vaddisa.pixtop.ImageOnClick;
 import com.example.vaddisa.pixtop.PictureDetails;
 import com.example.vaddisa.pixtop.R;
 
 import java.util.ArrayList;
 
+import static com.example.vaddisa.pixtop.Constants.DETAILSFRAG;
+
 /**
  * Created by vaddisa on 8/20/2017.
  */
-public class MainFragment extends android.support.v4.app.Fragment implements ImageOnClick{
+public class MainFragment extends android.support.v4.app.Fragment implements ImageOnClick {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -30,17 +33,17 @@ public class MainFragment extends android.support.v4.app.Fragment implements Ima
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Bundle bundle = this.getArguments();
         if (bundle != null)
-            query = bundle.getString("query");
+            query = bundle.getString(Constants.query);
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         if (view.findViewById(R.id.landing_container) != null) {
             mTwoPane = true;
             if (savedInstanceState == null) {
                 getChildFragmentManager().beginTransaction()
-                        .replace(R.id.landing_container, new DetailsFragment(), "DetailsFragment")
+                        .replace(R.id.landing_container, new DetailsFragment(), DETAILSFRAG)
                         .commit();
             }
-        }else
-            mTwoPane =false;
+        } else
+            mTwoPane = false;
         setHasOptionsMenu(true);
         setScreen(view);
         return view;
@@ -55,7 +58,7 @@ public class MainFragment extends android.support.v4.app.Fragment implements Ima
     private void setScreen(View view) {
         tabLayout = (TabLayout) view.findViewById(R.id.tabs);
         viewPager = (ViewPager) view.findViewById(R.id.viewpager);
-        PageAdapter adapter = new PageAdapter(getChildFragmentManager(), query,mTwoPane,this);
+        PageAdapter adapter = new PageAdapter(getChildFragmentManager(), query, mTwoPane, this);
         viewPager.setAdapter(adapter);
         viewPager.refreshDrawableState();
         tabLayout.setupWithViewPager(viewPager);
@@ -64,7 +67,7 @@ public class MainFragment extends android.support.v4.app.Fragment implements Ima
     @Override
     public void onImageClick(ArrayList<PictureDetails> results, int position) {
         getChildFragmentManager().beginTransaction()
-                .replace(R.id.landing_container, DetailsFragment.newInstance(position,results), "DetailsFragment")
+                .replace(R.id.landing_container, DetailsFragment.newInstance(position, results), DETAILSFRAG)
                 .commit();
     }
 }

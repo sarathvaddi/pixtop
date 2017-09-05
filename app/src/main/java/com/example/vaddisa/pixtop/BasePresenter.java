@@ -2,6 +2,10 @@ package com.example.vaddisa.pixtop;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 
 import com.example.vaddisa.pixtop.ConnectivityManager.ConnectionManager;
 import com.example.vaddisa.pixtop.PictureDB.ImageCache;
@@ -12,7 +16,7 @@ import java.util.ArrayList;
 /**
  * Created by vaddisa on 8/20/2017.
  */
-public class BasePresenter {
+public class BasePresenter implements LoaderManager.LoaderCallbacks<Cursor> {
     Object o;
     Context ctx;
     Result resultInterface;
@@ -34,35 +38,36 @@ public class BasePresenter {
         cm.execute(url);
     }
 
-    public void fetchFavouritePictures() {
+    public void fetchFavouritePictures(LoaderManager loaderManager) {
 
-        final String[] PICTURES_COLUMN = {
-                PicturesContract.PicturesEntry.ID_HASH,
-                PicturesContract.PicturesEntry.COLUMN_POSTER_IMAGE,
-                PicturesContract.PicturesEntry.COLUMN_RELEASE_DATE,
-                PicturesContract.PicturesEntry.COLUMN_SYNOPSIS,
-                PicturesContract.PicturesEntry.COLUMN_TITLE,
-                PicturesContract.PicturesEntry.COLUMN_ORIGINAL_TITLE
-        };
-
-        Cursor movieCursor = ctx.getContentResolver().query(PicturesContract.PicturesEntry.CONTENT_URI, PICTURES_COLUMN, null, null, null);
-
-        ArrayList<PictureDetails> movies = new ArrayList<>();
-        if(movieCursor!=null) {
-            while (movieCursor.moveToNext()) {
-                PictureDetails movie = ImageCache.toModel(movieCursor);
-                movies.add(movie);
-            }
-            movieCursor.close();
-        }
-
-//        setResult(movies);
-        resultInterface.getResult(movies);
+        loaderManager.initLoader(100, null, this).forceLoad();
+//        final String[] PICTURES_COLUMN = {
+//                PicturesContract.PicturesEntry.ID_HASH,
+//                PicturesContract.PicturesEntry.COLUMN_POSTER_IMAGE,
+//                PicturesContract.PicturesEntry.COLUMN_RELEASE_DATE,
+//                PicturesContract.PicturesEntry.COLUMN_SYNOPSIS,
+//                PicturesContract.PicturesEntry.COLUMN_TITLE,
+//                PicturesContract.PicturesEntry.COLUMN_ORIGINAL_TITLE
+//        };
+//
+//        Cursor movieCursor = ctx.getContentResolver().query(PicturesContract.PicturesEntry.CONTENT_URI, PICTURES_COLUMN, null, null, null);
+//
+//        ArrayList<PictureDetails> movies = new ArrayList<>();
+//        if (movieCursor != null) {
+//            while (movieCursor.moveToNext()) {
+//                PictureDetails movie = ImageCache.toModel(movieCursor);
+//                movies.add(movie);
+//            }
+//            movieCursor.close();
+//        }
+//
+////        setResult(movies);
+//        resultInterface.getResult(movies);
     }
 
 
     public boolean isFavAvailableInDb(String movieID) {
-        if(movieID!=null) {
+        if (movieID != null) {
             String[] projection = new String[]{PicturesContract.PicturesEntry.ID_HASH};
             String selection = PicturesContract.PicturesEntry.ID_HASH + "=?";
             String[] selectionArgs = new String[1];
@@ -83,6 +88,45 @@ public class BasePresenter {
 
     public ArrayList<PictureDetails> getList() {
         return list;
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+//        final String[] PICTURES_COLUMN = {
+//                PicturesContract.PicturesEntry.ID_HASH,
+//                PicturesContract.PicturesEntry.COLUMN_POSTER_IMAGE,
+//                PicturesContract.PicturesEntry.COLUMN_RELEASE_DATE,
+//                PicturesContract.PicturesEntry.COLUMN_SYNOPSIS,
+//                PicturesContract.PicturesEntry.COLUMN_TITLE,
+//                PicturesContract.PicturesEntry.COLUMN_ORIGINAL_TITLE
+//        };
+
+        return new CursorLoader(ctx,
+                PicturesContract.PicturesEntry.CONTENT_URI,
+                PicturesContract.PicturesEntry.PICTURE_COLUMNS,
+                null, null, null);
+
+//
+//        Loader<Cursor> movieCursor = ctx.getContentResolver().query(PicturesContract.PicturesEntry.CONTENT_URI, PICTURES_COLUMN, null, null, null);
+//
+//        return movieCursor;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        ArrayList<PictureDetails> movies = new ArrayList<>();
+        if (data != null) {
+            while (data.moveToNext()) {
+                PictureDetails movie = ImageCache.toModel(data);
+                movies.add(movie);
+            }
+        }
+        resultInterface.getResult(movies);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+
     }
 }
 

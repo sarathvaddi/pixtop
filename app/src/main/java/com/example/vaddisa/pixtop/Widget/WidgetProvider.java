@@ -27,7 +27,7 @@ public class WidgetProvider extends AppWidgetProvider {
         if (intent.hasExtra(WIDGET_ID_KEY)) {
             int[] ids = intent.getExtras().getIntArray(WIDGET_ID_KEY);
             this.onUpdate(context, AppWidgetManager.getInstance(context), ids);
-            createRefreshIntent(context,ids);
+            createRefreshIntent(context, ids);
         } else
             super.onReceive(context, intent);
     }

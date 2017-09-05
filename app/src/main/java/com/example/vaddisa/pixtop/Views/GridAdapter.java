@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.bumptech.glide.Glide;
+import com.example.vaddisa.pixtop.Constants;
 import com.example.vaddisa.pixtop.PictureDetails;
 import com.example.vaddisa.pixtop.R;
 import com.squareup.picasso.Callback;
@@ -32,8 +33,8 @@ public class GridAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        Log.d("TAG-Adapter",result.size()+"Results");
-        return result.size()>0?result.size():0;
+        Log.d("TAG-Adapter", result.size() + Constants.RESULTS);
+        return result.size() > 0 ? result.size() : 0;
     }
 
     @Override
@@ -50,17 +51,10 @@ public class GridAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        convertView = inflater.inflate(R.layout.grid_view_item, parent,false);
-        ImageView imageView = (ImageView)convertView.findViewById(R.id.image);
+        convertView = inflater.inflate(R.layout.grid_view_item, parent, false);
+        ImageView imageView = (ImageView) convertView.findViewById(R.id.image);
 
         Glide.with(context).load(result.get(position).getOverview()).into(imageView);
-        /*Picasso.with(context).load(result.get(position).getOverview()).into(imageView, new ImageLoadedCallback(spinner) {
-            @Override
-            public void onSuccess() {
-                if (this.progressBar != null) {
-                    this.progressBar.setVisibility(View.GONE);
-                }
-            }});*/
         return convertView;
     }
 
@@ -68,7 +62,7 @@ public class GridAdapter extends BaseAdapter {
     public class ImageLoadedCallback implements Callback {
         ProgressBar progressBar;
 
-        public  ImageLoadedCallback(ProgressBar progBar){
+        public ImageLoadedCallback(ProgressBar progBar) {
             progressBar = progBar;
         }
 

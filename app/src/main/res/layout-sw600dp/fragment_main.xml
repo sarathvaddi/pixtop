@@ -14,8 +14,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal">
 
         <android.support.v4.view.ViewPager
             android:id="@+id/viewpager"
@@ -28,11 +27,9 @@
             android:id="@+id/landing_container"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2"/>
+            android:layout_weight="2" />
 
     </LinearLayout>
-
-
 
 
 </LinearLayout>

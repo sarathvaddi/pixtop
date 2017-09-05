@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
+import com.example.vaddisa.pixtop.Constants;
 import com.example.vaddisa.pixtop.PictureDetails;
 import com.example.vaddisa.pixtop.R;
 
@@ -25,8 +26,8 @@ public class DetailsActivity extends AppCompatActivity {
         setContentView(R.layout.details_activity);
         int position;
         ArrayList<PictureDetails> list;
-        position = getIntent().getIntExtra("position", 0);
-        list = getIntent().getParcelableArrayListExtra("results");
+        position = getIntent().getIntExtra(Constants.POSITION, 0);
+        list = getIntent().getParcelableArrayListExtra(Constants.RESULTS);
         DetailsFragment detailsFragment = DetailsFragment.newInstance(position, list);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.landing_container, detailsFragment, DetailsFragment.class.getSimpleName())

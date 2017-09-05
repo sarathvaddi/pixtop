@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -27,6 +26,7 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.example.vaddisa.pixtop.BasePresenter;
+import com.example.vaddisa.pixtop.Constants;
 import com.example.vaddisa.pixtop.PictureDB.EditDbService;
 import com.example.vaddisa.pixtop.PictureDetails;
 import com.example.vaddisa.pixtop.R;
@@ -122,8 +122,8 @@ public class DetailsFragment extends android.support.v4.app.Fragment {
         Bundle args = new Bundle();
 
         DetailsFragment fragment = new DetailsFragment();
-        args.putParcelableArrayList("results", results);
-        args.putInt("position", i);
+        args.putParcelableArrayList(Constants.RESULTS, results);
+        args.putInt(Constants.POSITION, i);
         fragment.setArguments(args);
         return fragment;
     }
@@ -142,8 +142,8 @@ public class DetailsFragment extends android.support.v4.app.Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            position = getArguments().getInt("position");
-            list = getArguments().getParcelableArrayList("results");
+            position = getArguments().getInt(Constants.POSITION);
+            list = getArguments().getParcelableArrayList(Constants.RESULTS);
         }
     }
 
@@ -152,8 +152,8 @@ public class DetailsFragment extends android.support.v4.app.Fragment {
         if (savedInstanceState == null) {
             return;
         }
-        position = savedInstanceState.getInt("position");
-        list = savedInstanceState.getParcelableArrayList("results");
+        position = savedInstanceState.getInt(Constants.POSITION);
+        list = savedInstanceState.getParcelableArrayList(Constants.RESULTS);
 
     }
 
@@ -162,10 +162,10 @@ public class DetailsFragment extends android.support.v4.app.Fragment {
             loadImageToImageView();
             setLikeButton();
             setImageSharing();
-            user.setText("Photographer: "+list.get(position).getOriginal_title());
+            user.setText(Constants.PHOTOGRAPHER + list.get(position).getOriginal_title());
         }
 
-}
+    }
 
     private void loadImageToImageView() {
         Glide.with(getActivity())
@@ -196,10 +196,10 @@ public class DetailsFragment extends android.support.v4.app.Fragment {
                     shareIntent.setAction(Intent.ACTION_SEND);
                     shareIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
                     shareIntent.setType("image/*");
-                    startActivity(Intent.createChooser(shareIntent, "Share Image"));
+                    startActivity(Intent.createChooser(shareIntent, Constants.SHARE_IMAGE));
                 }
-        }
-    });
+            }
+        });
     }
 
     private void setLikeButton() {
@@ -221,35 +221,32 @@ public class DetailsFragment extends android.support.v4.app.Fragment {
 
 
     private Uri getLocalBitmapUri(ImageView iview) {
-            Drawable drawable = iview.getDrawable();
-            Bitmap bmp = null;
-            if (drawable instanceof GlideBitmapDrawable){
+        Drawable drawable = iview.getDrawable();
+        Bitmap bmp = null;
+        if (drawable instanceof GlideBitmapDrawable) {
 
-                bmp = ((GlideBitmapDrawable) iview.getDrawable()).getBitmap();
-
-                Log.e("LOG","Came inside drawable");
-            } else {
-                Log.e("LOG","drawable is null"+drawable);
-                return null;
-
-            }
-
-            Uri bmpUri = null;
-
-            File file =  new File(getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES), "share_image_" + System.currentTimeMillis() + ".png");
-            FileOutputStream out = null;
-            try {
-                out = new FileOutputStream(file);
-                bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
-                out.close();
-                bmpUri = Uri.fromFile(file);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            return bmpUri;
+            bmp = ((GlideBitmapDrawable) iview.getDrawable()).getBitmap();
+        } else {
+            return null;
 
         }
+
+        Uri bmpUri = null;
+
+        File file = new File(getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES), "share_image_" + System.currentTimeMillis() + ".png");
+        FileOutputStream out = null;
+        try {
+            out = new FileOutputStream(file);
+            bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
+            out.close();
+            bmpUri = Uri.fromFile(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return bmpUri;
+
+    }
 
     private void saveFavourite() {
 
@@ -261,7 +258,7 @@ public class DetailsFragment extends android.support.v4.app.Fragment {
 
     public void isFavouriteMovie() {
         basePresenter = new BasePresenter(getContext());
-        if (basePresenter.isFavAvailableInDb(list!=null?list.get(position).getId_hash():null))
+        if (basePresenter.isFavAvailableInDb(list != null ? list.get(position).getId_hash() : null))
             favBtn.setRating(1);
         else
             favBtn.setRating(0);
@@ -271,10 +268,10 @@ public class DetailsFragment extends android.support.v4.app.Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         if (list != null) {
-            outState.putParcelableArrayList("results", list);
-            outState.putInt("position", position);
-            position = getArguments().getInt("position");
-            outState.putString("CurrentFragment", "DetailsFragment");
+            outState.putParcelableArrayList(Constants.RESULTS, list);
+            outState.putInt(Constants.POSITION, position);
+            position = getArguments().getInt(Constants.POSITION);
+            outState.putString(Constants.CURRENTFRAGMENT, Constants.DETAILSFRAG);
         }
         super.onSaveInstanceState(outState);
     }

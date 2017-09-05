@@ -36,7 +36,7 @@ public class PageAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        GridFragment fragment = GridFragment.newInstance(tabTitles[position],query,mTwoPane,onClick);
+        GridFragment fragment = GridFragment.newInstance(tabTitles[position], query, mTwoPane, onClick);
         return fragment;
     }
 

@@ -32,7 +32,7 @@
             android:id="@+id/user"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="@dimen/ten_dp_margin"
             android:fontFamily="sans-serif"
             android:lineSpacingMultiplier="@fraction/detail_body_line_spacing_multiplier"
             style="?android:attr/textAppearanceMedium" />
@@ -41,13 +41,13 @@
             android:id="@+id/user_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="@dimen/ten_dp_margin"
             android:textAppearance="@android:style/TextAppearance.Large" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/share_fab"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
+            android:layout_width="@dimen/fab_width"
+            android:layout_height="@dimen/fab_height"
             android:layout_gravity="bottom|end|right"
             android:layout_marginBottom="@dimen/fab_margin"
             android:layout_marginRight="@dimen/fab_margin"
@@ -55,7 +55,7 @@
             android:src="@drawable/ic_share"
             app:elevation="@dimen/fab_elevation"
             app:pressedTranslationZ="@dimen/fab_press_translation_z"
-            app:layout_behavior="com.example.vaddisa.pixtop.FABHideBehavior"/>
+            app:layout_behavior="com.example.vaddisa.pixtop.FABHideBehavior" />
 
     </LinearLayout>
 

@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by vaddisa on 8/20/2017.
  */
-public class GetResultsSet  implements Parcelable {
+public class GetResultsSet implements Parcelable {
 
     private List<PictureDetails> results;
 

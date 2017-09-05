@@ -15,7 +15,7 @@ public class ImageCache {
 
     public static PictureDetails toModel(Cursor cursor) {
 
-        PictureDetails pictureDetails = new PictureDetails();;
+        PictureDetails pictureDetails = new PictureDetails();
         pictureDetails.setId_hash(cursor.getString(cursor.getColumnIndex(PicturesContract.PicturesEntry.ID_HASH)));
         pictureDetails.setTitle(cursor.getString(cursor.getColumnIndex(PicturesContract.PicturesEntry.COLUMN_TITLE)));
         pictureDetails.setPoster_path(cursor.getString(cursor.getColumnIndex(PicturesContract.PicturesEntry.COLUMN_POSTER_IMAGE)));

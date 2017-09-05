@@ -16,10 +16,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.vaddisa.pixtop.BasePresenter;
+import com.example.vaddisa.pixtop.Constants;
 import com.example.vaddisa.pixtop.R;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
 
     private boolean mTwoPane;
     private SearchView searchView;
@@ -34,11 +35,11 @@ public class MainActivity extends AppCompatActivity{
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         if (haveNetworkConnection()) {
-                mTwoPane = false;
-                MainFragment mainFragment = new MainFragment();
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.container, mainFragment, MainFragment.class.getSimpleName())
-                        .commit();
+            mTwoPane = false;
+            MainFragment mainFragment = new MainFragment();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container, mainFragment, MainFragment.class.getSimpleName())
+                    .commit();
         } else {
             TextView tv = (TextView) findViewById(R.id.check_text);
             tv.setVisibility(View.VISIBLE);
@@ -68,7 +69,7 @@ public class MainActivity extends AppCompatActivity{
                 }
             });
             EditText searchPlate = (EditText) searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
-            searchPlate.setHint("Search");
+            searchPlate.setHint(R.string.search);
             View searchPlateView = searchView.findViewById(android.support.v7.appcompat.R.id.search_plate);
             searchPlateView.setBackgroundColor(ContextCompat.getColor(this, android.R.color.transparent));
             // use this method for search process
@@ -76,7 +77,7 @@ public class MainActivity extends AppCompatActivity{
                 @Override
                 public boolean onQueryTextSubmit(String query) {
                     Bundle bundle = new Bundle();
-                    bundle.putString("query", query);
+                    bundle.putString(Constants.query, query);
                     MainFragment fragment = new MainFragment();
                     fragment.setArguments(bundle);
                     getSupportFragmentManager().beginTransaction()

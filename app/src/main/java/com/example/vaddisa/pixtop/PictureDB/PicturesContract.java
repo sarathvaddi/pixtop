@@ -3,13 +3,6 @@ package com.example.vaddisa.pixtop.PictureDB;
 import android.content.ContentResolver;
 import android.net.Uri;
 
-import static com.example.vaddisa.pixtop.PictureDB.PicturesContract.PicturesEntry.COLUMN_ORIGINAL_TITLE;
-import static com.example.vaddisa.pixtop.PictureDB.PicturesContract.PicturesEntry.COLUMN_POSTER_IMAGE;
-import static com.example.vaddisa.pixtop.PictureDB.PicturesContract.PicturesEntry.COLUMN_RELEASE_DATE;
-import static com.example.vaddisa.pixtop.PictureDB.PicturesContract.PicturesEntry.COLUMN_SYNOPSIS;
-import static com.example.vaddisa.pixtop.PictureDB.PicturesContract.PicturesEntry.COLUMN_TITLE;
-import static com.example.vaddisa.pixtop.PictureDB.PicturesContract.PicturesEntry.ID_HASH;
-
 /**
  * Created by vaddisa on 8/29/2017.
  */
@@ -79,7 +72,6 @@ public class PicturesContract {
                 ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PICTURES_PATH;
 
 
-
         /**
          * Creates a new uri with the id appended to the end of the path.
          *
@@ -89,15 +81,17 @@ public class PicturesContract {
         public static Uri buildMovieUri(String id) {
             return CONTENT_URI.buildUpon().appendPath(id).build();
         }
+
+        public static final String[] PICTURE_COLUMNS = {
+                ID_HASH,
+                COLUMN_ORIGINAL_TITLE,
+                COLUMN_POSTER_IMAGE,
+                COLUMN_RELEASE_DATE,
+                COLUMN_SYNOPSIS,
+                COLUMN_TITLE,
+        };
+
     }
 
-    public static final String[] PICTURE_COLUMNS = {
-            ID_HASH,
-            COLUMN_ORIGINAL_TITLE,
-            COLUMN_POSTER_IMAGE,
-            COLUMN_RELEASE_DATE,
-            COLUMN_SYNOPSIS,
-            COLUMN_TITLE,
-    };
 
 }

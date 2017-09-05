@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.widget.Toast;
 
 import com.example.vaddisa.pixtop.PictureDetails;
+import com.example.vaddisa.pixtop.R;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 /**
@@ -45,7 +46,7 @@ public class EditDbService extends IntentService {
                 getApplicationContext().getContentResolver().insert(PicturesContract.PicturesEntry.CONTENT_URI,
                         ImageCache.toContentValues(imageDetailsModel));
 
-                notifyFavUpdate(imageDetailsModel.getTitle() + "Added to db");
+                notifyFavUpdate(imageDetailsModel.getTitle() + R.string.added);
             } else {
                 deleteFavourite();
             }
@@ -64,7 +65,7 @@ public class EditDbService extends IntentService {
 
         getApplicationContext().getContentResolver().delete(PicturesContract.PicturesEntry.CONTENT_URI,
                 selectionPicture, selectionArgs);
-        notifyFavUpdate(imageDetailsModel.getTitle() + "Removed from db");
+        notifyFavUpdate(imageDetailsModel.getTitle() + R.string.removed);
 
     }
 

@@ -7,4 +7,12 @@
     <string name="title_stock_widget">PixTop</string>
     <string name="search">search</string>
     <string name="shared_element_image">Share Element Image</string>
+    <string name = "added">Added to db</string>
+    <string name = "removed">Removed from db</string>
+    <string name="Search">search</string>
+    <string name="query">query</string>
+    <string name="photographerTag">Photographer :</string>
+    <string name="share">Share Image</string>
+    <string name="pixabay_credits">©pixabay</string>
+    <string name="into_parser">Entered into parser</string>
 </resources>

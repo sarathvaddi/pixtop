@@ -3,4 +3,4 @@
     android:initialLayout="@layout/list_widget_layout"
     android:minHeight="146dp"
     android:minWidth="246dp"
-    android:resizeMode="vertical|horizontal"/>
+    android:resizeMode="vertical|horizontal" />

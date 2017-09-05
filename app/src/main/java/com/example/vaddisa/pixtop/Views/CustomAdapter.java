@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.example.vaddisa.pixtop.Constants;
 import com.example.vaddisa.pixtop.ImageOnClick;
 import com.example.vaddisa.pixtop.PictureDetails;
 import com.example.vaddisa.pixtop.R;
@@ -25,7 +26,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
     boolean mTwoPane;
     ImageOnClick onClick;
 
-    public CustomAdapter(Context context, ArrayList<PictureDetails> results, boolean mTwoPane,ImageOnClick onClick) {
+    public CustomAdapter(Context context, ArrayList<PictureDetails> results, boolean mTwoPane, ImageOnClick onClick) {
         this.context = context;
         this.results = results;
         this.mTwoPane = mTwoPane;
@@ -63,13 +64,13 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
             image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(!mTwoPane) {
+                    if (!mTwoPane) {
                         Intent intent = new Intent(context, DetailsActivity.class);
-                        intent.putExtra("position", position);
-                        intent.putParcelableArrayListExtra("results", results);
+                        intent.putExtra(Constants.POSITION, position);
+                        intent.putParcelableArrayListExtra(Constants.RESULTS, results);
                         context.startActivity(intent);
-                    }else{
-                        onClick.onImageClick(results,position);
+                    } else {
+                        onClick.onImageClick(results, position);
                     }
                 }
             });
