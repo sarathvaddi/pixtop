@@ -39,30 +39,7 @@ public class BasePresenter implements LoaderManager.LoaderCallbacks<Cursor> {
     }
 
     public void fetchFavouritePictures(LoaderManager loaderManager) {
-
         loaderManager.initLoader(100, null, this).forceLoad();
-//        final String[] PICTURES_COLUMN = {
-//                PicturesContract.PicturesEntry.ID_HASH,
-//                PicturesContract.PicturesEntry.COLUMN_POSTER_IMAGE,
-//                PicturesContract.PicturesEntry.COLUMN_RELEASE_DATE,
-//                PicturesContract.PicturesEntry.COLUMN_SYNOPSIS,
-//                PicturesContract.PicturesEntry.COLUMN_TITLE,
-//                PicturesContract.PicturesEntry.COLUMN_ORIGINAL_TITLE
-//        };
-//
-//        Cursor movieCursor = ctx.getContentResolver().query(PicturesContract.PicturesEntry.CONTENT_URI, PICTURES_COLUMN, null, null, null);
-//
-//        ArrayList<PictureDetails> movies = new ArrayList<>();
-//        if (movieCursor != null) {
-//            while (movieCursor.moveToNext()) {
-//                PictureDetails movie = ImageCache.toModel(movieCursor);
-//                movies.add(movie);
-//            }
-//            movieCursor.close();
-//        }
-//
-////        setResult(movies);
-//        resultInterface.getResult(movies);
     }
 
 
@@ -92,24 +69,10 @@ public class BasePresenter implements LoaderManager.LoaderCallbacks<Cursor> {
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-//        final String[] PICTURES_COLUMN = {
-//                PicturesContract.PicturesEntry.ID_HASH,
-//                PicturesContract.PicturesEntry.COLUMN_POSTER_IMAGE,
-//                PicturesContract.PicturesEntry.COLUMN_RELEASE_DATE,
-//                PicturesContract.PicturesEntry.COLUMN_SYNOPSIS,
-//                PicturesContract.PicturesEntry.COLUMN_TITLE,
-//                PicturesContract.PicturesEntry.COLUMN_ORIGINAL_TITLE
-//        };
-
         return new CursorLoader(ctx,
                 PicturesContract.PicturesEntry.CONTENT_URI,
                 PicturesContract.PicturesEntry.PICTURE_COLUMNS,
                 null, null, null);
-
-//
-//        Loader<Cursor> movieCursor = ctx.getContentResolver().query(PicturesContract.PicturesEntry.CONTENT_URI, PICTURES_COLUMN, null, null, null);
-//
-//        return movieCursor;
     }
 
     @Override
