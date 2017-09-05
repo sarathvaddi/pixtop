@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.example.vaddisa.pixtop.Constants;
 import com.example.vaddisa.pixtop.ImageOnClick;
 
 /**
@@ -27,7 +28,7 @@ public class PageAdapter extends FragmentStatePagerAdapter {
         return tabTitles.length;
     }
 
-    private String tabTitles[] = new String[]{"All", "My Album", "Saved"};
+    private String tabTitles[] = Constants.tabTitles;
 
     @Override
     public CharSequence getPageTitle(int position) {

@@ -13,7 +13,7 @@ public class Constants {
     public static final String ALL = "All";
     public static final String SAVED = "Saved";
     public static final String TWO_PANE = "mTwoPane";
-    public String tabTitles[] = new String[]{"All", "My Album", "Saved"};
+    public static String tabTitles[] = new String[]{"All", "My Album", "Saved"};
 
     public static final String LOCAL_API_URL = "10.0.0.80:8080/photo_gallery/photos";
     public static final String API_STRING = "?key=";
