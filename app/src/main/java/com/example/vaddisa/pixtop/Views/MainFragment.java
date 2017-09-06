@@ -58,7 +58,7 @@ public class MainFragment extends android.support.v4.app.Fragment implements Ima
     private void setScreen(View view) {
         tabLayout = (TabLayout) view.findViewById(R.id.tabs);
         viewPager = (ViewPager) view.findViewById(R.id.viewpager);
-        PageAdapter adapter = new PageAdapter(getChildFragmentManager(), query, mTwoPane, this);
+        PageAdapter adapter = new PageAdapter(getContext(),getChildFragmentManager(), query, mTwoPane, this);
         viewPager.setAdapter(adapter);
         viewPager.refreshDrawableState();
         tabLayout.setupWithViewPager(viewPager);

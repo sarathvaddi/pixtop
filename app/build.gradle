@@ -5,7 +5,7 @@ android {
         config {
             keyAlias 'picstopKey'
             keyPassword 'Canon550d'
-            storeFile file('/Users/sarathreddyvaddhi/Documents/Udacity/Pixtop/keystore.jks')
+            storeFile file("$rootdir/keystore.jks")
             storePassword 'Canon550d'
         }
     }

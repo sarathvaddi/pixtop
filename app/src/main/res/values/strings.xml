@@ -15,7 +15,11 @@
     <string name="share">Share Image</string>
     <string name="pixabay_credits">©pixabay</string>
     <string name="into_parser">Entered into parser</string>
-    <string name="all">All</string>
-    <string name="my_album">My Album</string>
-    <string name="saved">Saved</string>
+
+
+    <string-array name="page_titles">
+        <item>All</item>
+        <item>My Album</item>
+        <item>Saved</item>
+    </string-array>
 </resources>
