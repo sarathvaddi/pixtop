@@ -5,7 +5,7 @@ android {
         config {
             keyAlias 'picstopKey'
             keyPassword 'Canon550d'
-            storeFile file("$rootdir/keystore.jks")
+            storeFile file("$rootDir/keystore.jks")
             storePassword 'Canon550d'
         }
     }
